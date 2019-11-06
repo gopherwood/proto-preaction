@@ -3,6 +3,13 @@ body {
     padding: 0;
 }
 
+#font-loader {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+}
+.font-example {font-family: font-example;}
+
 div#content {
     top: 0;
     bottom: 0;
