@@ -21,9 +21,7 @@
     "html-webpack-plugin": "^3.2.0",
     "merge-jsons-webpack-plugin": "^1.0.19",
     "mini-css-extract-plugin": "^0.4.2",
-    "pixi.js": "^5.1.3",
     "platypus": "git+https://github.com/PBS-KIDS/Platypus.git#feature/sr2",
-    "springroll": "git+https://github.com/SpringRoll/SpringRoll.git#v2",
     "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.3.1"
