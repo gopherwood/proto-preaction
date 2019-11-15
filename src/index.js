@@ -5,7 +5,9 @@ import platypus from 'platypus';
 const packageData = require('../package.json'),
     config = {
         levels: {},
-        spriteSheets: {}
+        spriteSheets: {},
+        atlases: {},
+        skeletons: {}
     },
     flatten = {
         entities: true,
@@ -41,6 +43,14 @@ const packageData = require('../package.json'),
             }
             props[arr[last].replace('.json', '')] = r(key);
         });
+    },
+    importTEXT = function (r, config) {
+        r.keys().forEach((key) => {
+            var arr = key.split('/'),
+                last = arr.length - 1;
+            
+            config[arr[last].substring(0, arr[last].length - 6)] = r(key).default;
+        });
     };
 
 importComponents(require.context(
@@ -70,7 +80,19 @@ importJSON(require.context(
     /.*\.json/ // RegExp
 ), config.levels);
 
-//standardizeLevelPoints(config.levels);
+// spine skeleton files
+importJSON(require.context(
+    "../assets/spine/", // context folder
+    true, // include subdirectories
+    /.*\.json/ // RegExp
+  ), config.skeletons);
+
+// spine atlas files
+importTEXT(require.context(
+    "../assets/spine/", // context folder
+    true, // include subdirectories
+    /.*\.atlas/ // RegExp
+  ), config.atlases);
 
 const game = new platypus.Game(config, {
     canvasId: 'stage',

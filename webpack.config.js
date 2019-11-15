@@ -4,9 +4,14 @@ const MergeJsonWebpackPlugin = require("merge-jsons-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlConfig = require(path.join(__dirname, 'html.config'));
-const deploy = path.join(__dirname, 'deploy');
+const deploy = path.join(__dirname, 'deploy'),
+    webpack = require('webpack');
+
 module.exports = env => {
   const plugins = [
+    new webpack.ProvidePlugin({ // Needed to import pixi-spine correctly.
+      PIXI: 'pixi.js'
+    }),
     new HtmlWebpackPlugin(HtmlConfig),
     new MergeJsonWebpackPlugin({
         "output": {
@@ -44,6 +49,10 @@ module.exports = env => {
     plugins,
     module: {
       rules: [
+        {
+          test: /\.atlas$/i,
+          use: 'raw-loader',
+        },
         {
           test: /\.css$/,
           use: [MiniCssExtractPlugin.loader, 'css-loader']
