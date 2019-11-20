@@ -1,4 +1,5 @@
 /* global require */
+import './components.js';
 import './styles.css';
 import platypus from 'platypus';
 
@@ -12,14 +13,6 @@ const packageData = require('../package.json'),
     flatten = {
         entities: true,
         scenes: true
-    },
-    importComponents = function (r) {
-        r.keys().forEach((key) => {
-            var arr = key.split('/'),
-                last = arr.length - 1;
-
-            platypus.components[arr[last].substring(0, arr[last].length - 3)] = r(key).default;
-        });
     },
     importJSON = function (r, config) {
         r.keys().forEach((key) => {
@@ -52,12 +45,6 @@ const packageData = require('../package.json'),
             config[arr[last].substring(0, arr[last].length - 6)] = r(key).default;
         });
     };
-
-importComponents(require.context(
-    "./components/", // context folder
-    true, // include subdirectories
-    /.*\.js/ // RegExp
-));
 
 // Base configuration
 importJSON(require.context(
