@@ -60,6 +60,27 @@ importJSON(require.context(
     /.*\.json/ // RegExp
 ), config.spriteSheets);
 
+// levels
+importJSON(require.context(
+    "../assets/levels/", // context folder
+    true, // include subdirectories
+    /.*\.json/ // RegExp
+), config.levels);
+
+// spine skeleton files
+importJSON(require.context(
+    "../assets/spine/", // context folder
+    true, // include subdirectories
+    /.*\.json/ // RegExp
+  ), config.skeletons);
+
+// spine atlas files
+importTEXT(require.context(
+    "../assets/spine/", // context folder
+    true, // include subdirectories
+    /.*\.atlas/ // RegExp
+  ), config.atlases);
+
 const game = new platypus.Game(config, {
     canvasId: 'stage',
     display: {
