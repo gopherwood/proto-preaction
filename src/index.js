@@ -84,7 +84,8 @@ importTEXT(require.context(
 const game = new platypus.Game(config, {
     canvasId: 'stage',
     display: {
-        clearView: true
+        clearView: true,
+        aspectRatio: "4:3-2:1"
     },
     audio: 'assets/audio/',
     images: 'assets/images/',
