@@ -1,0 +1,38 @@
+<html>
+    <body style="
+        padding: 0;
+        margin: 0;
+    ">
+        <iframe id="game" scrolling="no" style="
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            border: 0;
+        "></iframe>
+        
+        <button id="sound" style="position: absolute; bottom: 0; right: 0;">Sound</button>
+        <button id="captions" style="position: absolute; bottom: 0; right: 5em;">Captions</button>
+        <button id="vo" style="position: absolute; bottom: 0; right: 10em;">VO</button>
+        <button id="music" style="position: absolute; bottom: 0; right: 15em;">Music</button>
+        <button id="sfx" style="position: absolute; bottom: 0; right: 20em;">SFX</button>
+        <button id="pause" style="position: absolute; bottom: 0; right: 25em;">Pause</button>
+        <button id="help" style="position: absolute; bottom: 0; right: 30em;">Help</button>
+
+        <script type="text/javascript" src="../node_modules/bellhop-iframe/bellhop-umd.js"></script>
+        <script type="text/javascript" src="../node_modules/springroll-container/dist/container.js"></script>
+        <script>
+            var container = new springroll.Container("#game", {
+                soundButton: '#sound',
+                captionsButton: '#captions',
+                voButton: '#vo',
+                musicButton: '#music',
+                sfxButton: '#sfx',
+                pauseButton: '#pause',
+                helpButton: '#help'
+            });
+            container.openPath("../deploy/index.html");
+        </script>
+    </body>
+</html>
