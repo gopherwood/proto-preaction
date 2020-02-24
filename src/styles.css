@@ -41,6 +41,9 @@ div#captions {
     color: white;
     line-height: 1.6em;
     pointer-events: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+    cursor: default;
 }
 
 #framerate {
