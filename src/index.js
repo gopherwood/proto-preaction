@@ -1,7 +1,7 @@
 /* global require */
 import './components.js';
 import './styles.css';
-import platypus from 'platypus';
+import {Game} from 'platypus';
 
 const packageData = require('../package.json'),
     config = {
@@ -81,7 +81,7 @@ importTEXT(require.context(
     /.*\.atlas/ // RegExp
   ), config.atlases);
 
-const game = new platypus.Game(config, {
+const game = new Game(config, {
     canvasId: 'stage',
     display: {
         clearView: true,
