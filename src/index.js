@@ -1,10 +1,12 @@
 /* global require */
-import './components.js';
 import './styles.css';
 import {Game} from 'platypus';
+import unpack from './spritesheets.js';
 
-const packageData = require('../package.json'),
+const
+    packageData = require('../package.json'),
     config = {
+        entities: {},
         levels: {},
         spriteSheets: {},
         atlases: {},
@@ -14,13 +16,19 @@ const packageData = require('../package.json'),
         entities: true,
         scenes: true
     },
-    importJSON = function (r, config) {
+    importJS = function (r, config) {
         r.keys().forEach((key) => {
             var arr = key.split('/'),
+                last = arr.length - 1,
+                file = arr[last],
+                lastDot = file.lastIndexOf('.'),
+                fileName = file.substring(0, lastDot),
+                fileType = file.substring(lastDot + 1).toLowerCase(),
+                fullName = '',
                 i = 0,
-                props = config,
-                last = arr.length - 1;
-
+                props = config;
+            let result = null;
+            
             for (i = 0; i < last; i++) {
                 if (arr[i] !== '.') {
                     if (!props[arr[i]]) {
@@ -30,11 +38,38 @@ const packageData = require('../package.json'),
                     props = props[arr[i]];
 
                     if (flatten[arr[i]]) {
+                        for (let j = i + 1; j < arr.length - 1; j++) {
+                            fullName += `${arr[j]}-`;
+                        }
+                        fullName += fileName;
                         break;
                     }
                 }
             }
-            props[arr[last].replace('.json', '')] = r(key);
+
+            if (fileType === 'js') {
+                result = r(key).default;
+            } else if (fileType === 'json') {
+                result = r(key);
+            }
+
+            // We have a duplicate
+            if (props[fileName]) {
+                if (Array.isArray(props[fileName])) {
+                    props[fileName].push(result);
+                } else {
+                    props[fileName] = [
+                        props[fileName],
+                        result
+                    ];
+                }                
+            } else {
+                props[fileName] = result;
+            }
+
+            if (fullName !== fileName) {
+                props[fullName] = result;
+            }
         });
     },
     importTEXT = function (r, config) {
@@ -47,28 +82,29 @@ const packageData = require('../package.json'),
     };
 
 // Base configuration
-importJSON(require.context(
+importJS(require.context(
     "./config/", // context folder
     true, // include subdirectories
-    /.*\.json/ // RegExp
-), config);
+    /.*\.(?:js|json)/ // RegExp
+  ), config);
 
 // Sprite Sheets
-importJSON(require.context(
+importJS(require.context(
     "../assets/images/", // context folder
     true, // include subdirectories
     /.*\.json/ // RegExp
-), config.spriteSheets);
+  ), config.spriteSheets);
+unpack(config.spriteSheets, 'assets/images/');
 
 // levels
-importJSON(require.context(
+importJS(require.context(
     "../assets/levels/", // context folder
     true, // include subdirectories
     /.*\.json/ // RegExp
-), config.levels);
+  ), config.levels);
 
-// spine skeleton files
-importJSON(require.context(
+  // spine skeleton files
+importJS(require.context(
     "../assets/spine/", // context folder
     true, // include subdirectories
     /.*\.json/ // RegExp
@@ -84,8 +120,9 @@ importTEXT(require.context(
 const game = new Game(config, {
     canvasId: 'stage',
     display: {
-        clearView: true,
-        aspectRatio: "4:3-2:1"
+        aspectRatio: "3:7-7:3",
+        backgroundColor: 0x101010,
+        clearView: true
     },
     audio: 'assets/audio/',
     images: 'assets/images/',
