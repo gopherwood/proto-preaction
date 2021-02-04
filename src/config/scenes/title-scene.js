@@ -1,4 +1,5 @@
 import {Data, arrayCache, createComponentClass} from 'platypus';
+import HandlerRender from '../../components/HandlerRender';
 
 const
     DelayInputs = createComponentClass({
@@ -39,7 +40,8 @@ const
                             'delta', tick.delta,
                             'deltaMS', tick.delta,
                             'deltaTime', gameTick.deltaTime,
-                            'elapsed', gameTick.elapsed
+                            'elapsed', gameTick.elapsed,
+                            'timeShift', true
                         ))
                     ))
                 ));
@@ -191,9 +193,7 @@ export default {
         }, {
             type: "HandlerLogic",
             alwaysOn: true
-        }, {
-            type: "HandlerRender"
-        }, {
+        }, HandlerRender, {
             type: "Camera",
             width: 1200,
             height: 1200,

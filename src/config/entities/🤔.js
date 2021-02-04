@@ -1,4 +1,5 @@
 import {Data, arrayCache, createComponentClass} from 'platypus';
+import RenderContainer from '../../components/RenderContainer';
 //import EntityController from '../../components/EntityController.js';
 
 const
@@ -173,6 +174,8 @@ export default {
     id: "🤔",
     components: [{
         type: "EntityController"
+    }, {
+        type: RenderContainer
     }, {
         type: "RenderText",
         style: {
