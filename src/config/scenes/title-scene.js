@@ -1,7 +1,6 @@
 import {Data, arrayCache, createComponentClass} from 'platypus';
 
 const
-    SPEED = 0.2,
     DelayInputs = createComponentClass({
         properties: {
             lifetime: 255
@@ -14,7 +13,7 @@ const
             this.goBackInTime = Infinity;
         },
         events: {
-            "tick": function (tick) {
+            "tick": function () {
                 const
                     goBackInTime = this.goBackInTime;
 
@@ -50,6 +49,7 @@ const
                 while (this.history.length > this.lifetime / tick.delta) {
                     const snapshot = this.history.shift();
 
+                    this.discardEntitiesSnapshots(snapshot);
                     this.discardSnapshot(snapshot);
                 }
             }
@@ -70,10 +70,9 @@ const
             }
         },
         publicMethods: {
-            discardSnapshot: function (snapshot) {
+            discardEntitiesSnapshots: function (snapshot) {
                 const
-                    entities = snapshot.entities,
-                    events = snapshot.events;
+                    entities = snapshot.entities;
 
                 for (let i = 0; i < entities.length; i++) {
                     const entity = entities[i];
@@ -82,7 +81,12 @@ const
                         entity.discardSnapshot(snapshot.timestamp);
                     }
                 }
-                arrayCache.recycle(entities);
+            },
+            discardSnapshot: function (snapshot) {
+                const
+                    events = snapshot.events;
+
+                arrayCache.recycle(snapshot.entities);
 
                 for (let i = 0; i < events.length; i++) {
                     events[i].recycle();
