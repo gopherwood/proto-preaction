@@ -2,6 +2,10 @@ import {Data, arrayCache, createComponentClass} from 'platypus';
 import HandlerRender from '../../components/HandlerRender';
 
 const
+    MINIMUM = 36 * 36,
+    magSqr = function (x, y) {
+        return x * x + y * y;
+    },
     DelayInputs = createComponentClass({
         properties: {
             lifetime: 255
@@ -53,6 +57,30 @@ const
 
                     this.discardEntitiesSnapshots(snapshot);
                     this.discardSnapshot(snapshot);
+                }
+
+                // basic collision detection
+                for (let i = 0; i < tick.entities.length; i++) {
+                    const thisEntity = tick.entities[i];
+
+                    if (thisEntity.type === '🤔') {
+                        let hit = false;
+
+                        for (let j = 0; j < tick.entities.length; j++) {
+                            const thatEntity = tick.entities[j];
+
+                            if (thatEntity.type === '🗿') {
+                                const
+                                    dist = magSqr(thisEntity.x - thatEntity.x, thisEntity.y - thatEntity.y);
+                                
+                                if (dist < MINIMUM) {
+                                    hit = true;
+                                    break;
+                                }
+                            }
+                        }
+                        thisEntity.updateCollision(hit);
+                    }
                 }
             }
         },
@@ -209,7 +237,16 @@ export default {
                 {type: "🤔", properties: {inputDelay: -150, renderDelay: 25, x: 0, y: 300}},
                 {type: "🤔", properties: {inputDelay: -50, renderDelay: 125, x: 300, y: -300}},
                 {type: "🤔", properties: {inputDelay: -50, renderDelay: 75, x: 300, y: 0}},
-                {type: "🤔", properties: {inputDelay: -50, renderDelay: 25, x: 300, y: 300}}
+                {type: "🤔", properties: {inputDelay: -50, renderDelay: 25, x: 300, y: 300}},
+                {type: "🗿"},
+                {type: "🗿"},
+                {type: "🗿"},
+                {type: "🗿"},
+                {type: "🗿"},
+                {type: "🗿"},
+                {type: "🗿"},
+                {type: "🗿"},
+                {type: "🗿"}
             ]
         }]
     }]
