@@ -15,7 +15,7 @@ module.exports = {
   /* {boolean | Object | Function}
       Allows to overwrite the parameters used in the template */
   templateParameters: {
-    title: 'Springroll',
+    title: 'Reaction Time Prototype',
     width: 640,
     height: 480
   },
