@@ -1,4 +1,3 @@
-import RenderContainer from '../../components/RenderContainer';
 import StateSaver from '../../components/StateSaver';
 import {createComponentClass} from 'platypus';
 //import EntityController from '../../components/EntityController.js';
@@ -47,8 +46,6 @@ export default {
     components: [{
         type: "EntityController"
     }, {
-        type: RenderContainer
-    }, {
         type: "RenderText",
         style: {
             fontSize: "48px",
@@ -58,7 +55,6 @@ export default {
         text: "🗿"
     }, StateSaver, Move],
     properties: {
-        renderDelay: 0,
         x: 0,
         y: 0,
         z: 3

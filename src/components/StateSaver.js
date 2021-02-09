@@ -25,8 +25,7 @@ export default createComponentClass({
         ]
     },
     publicProperties: {
-        inputDelay: 0,
-        renderDelay: 0
+        inputDelay: 0
     },
     initialize: function () {
         const

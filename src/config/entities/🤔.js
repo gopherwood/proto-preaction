@@ -1,5 +1,4 @@
 import {Data, createComponentClass} from 'platypus';
-import RenderContainer from '../../components/RenderContainer';
 import StateSaver from '../../components/StateSaver';
 //import EntityController from '../../components/EntityController.js';
 
@@ -8,7 +7,7 @@ const
     Move = createComponentClass({
         publicProperties: {
             inputDelay: 0,
-            renderDelay: 0,
+            interpolation: 0,
             colliding: false,
             hits: 0,
             east: 0,
@@ -89,7 +88,7 @@ const
         methods: {
             updateTitle: function () {
                 this.owner.triggerEvent('set-label', {
-                    text: `Input: ${this.inputDelay}ms\nRender: ${this.renderDelay}ms\nHits: ${this.hits}`
+                    text: `Input: ${this.inputDelay}ms\nRender: ${this.interpolation}ms\nHits: ${this.hits}`
                 });
             }
         },
@@ -115,8 +114,6 @@ export default {
     id: "🤔",
     components: [{
         type: "EntityController"
-    }, {
-        type: RenderContainer
     }, {
         type: "RenderText",
         style: {
